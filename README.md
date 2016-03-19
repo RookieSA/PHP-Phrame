@@ -1,3 +1,3 @@
 # Phrame
 
-A simple PHP Framework that assists with structural development that seamlessly seperates code from design
+A simple PHP Framework that assists with modular development that seamlessly seperates code from design
