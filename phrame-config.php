@@ -17,4 +17,5 @@
 	define(LOC_VIEWS, $LOC_VIEWS);
 	define(ERR_NO_CONFIG_FILE, "There is no configuration file in module '%s'");
 	$phrame_modules = array();
+	$phrame_config = array();
 	

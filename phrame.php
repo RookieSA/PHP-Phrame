@@ -5,7 +5,7 @@
 	class phrame {
 		
 		public function __construct($autoload=true) {
-			global $phrame_modules;
+			global $phrame_modules, $phrame_config;
 			
 			if($autoload):
 				$this->autoload();
@@ -42,7 +42,7 @@
 							// Set current method's argument value
 							$function["args"] = $method_args;
 							// Create example usage of method instantiation
-							$function["method"] = $class_name."::".$method."(".implode(", ", $method_args).")";
+							$function["method"] = $class_name."::".$method."($".implode(", $", $method_args).")";
 							// Update $phrame_modules array's methods with the list of functions
 							$phrame_modules[$module_key]["classes"][$class_key]["methods"] = $function;
 						endforeach;
@@ -64,9 +64,19 @@
 		}
 		
 		public function load_module($module_path) {
-			global $phrame_modules;
+			global $phrame_modules, $phrame_config;
 			
-			$config = array();
+			// Check if $module_path is a URL
+			if(filter_var($module_path, FILTER_VALIDATE_URL)):
+				$this->load_external_module($module_path);
+				/*
+				*	Re-set the $module_path to the newly created module directory
+				*	The newly created directory name matches the zip file name of the remote module; however we need to remove the .zip extension
+				*/
+				$module_path = basename($module_path);
+				$module_path = preg_replace('/\\.[^.\\s]{3,4}$/', '', $module_path);
+			endif;
+			
 			$class_count = 0;
 			$rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(\LOC_MODULES."/".$module_path));
 			// Loop through discovered modules
@@ -84,6 +94,7 @@
 				if(file_exists($config_f_path) !== false):
 					$config = (array)simplexml_load_file($config_f_path);
 					$module["config"] = $config;
+					$phrame_config = $config;
 				else:
 					throw new \Exception(sprintf(\ERR_NO_CONFIG_FILE, $module["root"]), 1);
 				endif;
@@ -135,7 +146,7 @@
 			return $phrame_modules[$name]["classes"];
 		}
 		
-		// Retreive a specific module
+		// Retreive a module's methods
 		public function get_module_methods($name) {
 			global $phrame_modules;
 			$methods = array();
@@ -143,5 +154,26 @@
 				$methods[] = $method["methods"];
 			endforeach;
 			return $methods;
+		}
+		
+		private function load_external_module($url) {
+			
+			$tmp_zip = basename($url);
+			$r_zip = LOC_MODULES.'/'.$tmp_zip;
+			
+			// Download remote module and save to local module directory
+			$ch = curl_init($url);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			$data = curl_exec($ch);
+			file_put_contents($r_zip, $data);
+			
+			$zip = new \ZipArchive;
+			if ($zip->open($r_zip) === TRUE):
+				$zip->extractTo(realpath(LOC_MODULES));
+				$zip->close();
+				unlink($r_zip);
+			else:
+				echo 'failed';
+			endif;
 		}
 	}
