@@ -34,7 +34,7 @@
 			*	- If the module path is external:
 			*		- Check if the module already exists
 			*		- If the module already exists, check if the auto_update setting in its config file is set to true
-			*		- If set to true, overwrite the existing module, else do nothing
+			*		- If set to true, download and overwrite the existing module with the newly downloaded one, else do nothing
 			*	- Continue to load both local and newly downloaded modules
 			*/
 			
@@ -72,7 +72,7 @@
 			endif;
 			
 			/*
-			*	Proceed to iterate through the modules
+			*	Proceed to iterate through and load all modules
 			*/
 			$rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(\LOC_MODULES."/".$module_path));
 			// Loop through discovered modules
