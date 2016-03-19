@@ -41,7 +41,7 @@
 			return $num;
 		}
 		public function dbfree ($result) {
-		  mysql_free_result($result);
+		  	mysql_free_result($result);
 		}
 		public function dbclose() {
 			mysql_close($this->$conid);
