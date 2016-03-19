@@ -27,6 +27,17 @@
 		public function load_module($module_path) {
 			global $phrame_modules, $phrame_config;
 			
+			/*
+			*	First do some housework on the requested module
+			*	The procedure is as followed:
+			*	- First check if the module path ($module_path) is local or an external URL
+			*	- If the module path is external:
+			*		- Check if the module already exists
+			*		- If the module already exists, check if the auto_update setting in its config file is set to true
+			*		- If set to true, overwrite the existing module, else do nothing
+			*	- Continue to load both local and newly downloaded modules
+			*/
+			
 			// Check if $module_path is a URL
 			if(filter_var($module_path, FILTER_VALIDATE_URL)):
 				// Extract the module name from the ZIP file name
@@ -60,7 +71,9 @@
 				
 			endif;
 			
-			
+			/*
+			*	Proceed to iterate through the modules
+			*/
 			$rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(\LOC_MODULES."/".$module_path));
 			// Loop through discovered modules
 			foreach($rii as $file):
