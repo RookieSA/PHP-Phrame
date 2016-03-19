@@ -105,7 +105,7 @@
 				endif;
 				
 				// Get module README
-				if(strpos(strtolower($fpath), "readme.txt") !== false):
+				if(strpos(strtolower($fpath), "readme.md") !== false):
 					$module["readme"] = file_get_contents($fpath);
 				endif;
 				
