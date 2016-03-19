@@ -22,6 +22,7 @@
 			// Loop through discovered modules
 			foreach($modules as $module):
 				$module = str_replace(LOC_MODULES, "", $module);
+				// Load discovered module
 				$this->load_module($module);
 			endforeach;
 			
