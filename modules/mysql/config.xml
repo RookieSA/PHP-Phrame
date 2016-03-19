@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<namespace>MySQL</namespace>
+	<name>MySQL Module</name>
+	<description>This module facilitates an easy way of performing CRUD (Create, Read, Update, Delete) operations on a MySQL database</description>
+	<author>Ruan Lamprecht</author>
+	<email>ruan@ruanlamprecht.co.za</email>
+	<version>1.0.0</version>
+	<url>http://www.ruanlamprecht.co.za</url>
+	<auto_update>false</auto_update>
+</config>

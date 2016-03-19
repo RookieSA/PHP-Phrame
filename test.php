@@ -3,16 +3,18 @@
 	include("phrame.php");
 	
 	$p = new Phrame\phrame(true);
-	$p->load_module("http://halosystems.co.za/another-module.zip");
-	$p->load_module("http://halosystems.co.za/yet-another-module.zip");
+	$p->load_module("http://halosystems.co.za/mysql.zip");
 	
 	print "<pre>";
 	print_r($p->get_modules());
 	
-	$testApp = new AnotherModule\test;
-	$testApp->print_user("Ruan", "Lamprecht");
+	$db = new MySQL\db("localhost","mmemp","root","");
+	$employes = $db->dbsql("SELECT * FROM employees");
+	while($employee = $db->dbfetch($employes)):
+		print $employee["name"];
+	endwhile;
 	
 	print "<br/>";
 	
-	YetAnotherModule\woohoo::twerk();
+	//YetAnotherModule\woohoo::twerk();
 ?>
