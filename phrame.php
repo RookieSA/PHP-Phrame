@@ -156,7 +156,11 @@
 						// Set current method's argument value
 						$function["args"] = $method_args;
 						// Create example usage of method instantiation
-						$function["method"] = $class_name."::".$method."($".implode(", $", $method_args).")";
+						if(count($method_args) > 0):
+							$function["method"] = $class_name."::".$method."($".implode(", $", $method_args).")";
+						else:
+							$function["method"] = $class_name."::".$method."()";
+						endif;
 						// Update $phrame_modules array's methods with the list of functions
 						$module["classes"][] = $function;
 					endforeach;
@@ -227,12 +231,34 @@
 					$tmp_config_loc = LOC_MODULES."/".uniqid().".xml";
 					$tmp_config = file_put_contents($tmp_config_loc, $conf_data);
 					$config = (array)simplexml_load_file($tmp_config_loc);
-					// If the current and new config file versions don't match, overwrite the existing module
-					if($config["version"] != $cur_version):
-						$zip->extractTo(realpath(LOC_MODULES));
-						// Delete the temp config file
-						unlink($tmp_config_loc);
+					
+					// Break down the file versioning
+					$current_versioning = explode(".", $cur_version);
+					$versioning = explode(".", $config["version"]);
+					
+					// Check if the versioning is valid
+					if(count($versioning) != 3):
+						throw new \Exception(\ERR_CONFIG_VERSION_INVALID, 2);
+					else:
+						// Current config file version
+						$cur_ver_major = $current_versioning[0];
+						$cur_ver_minor = $current_versioning[1];
+						$cur_ver_patch = $current_versioning[2];
+						
+						// New config file version
+						$ver_major = $versioning[0];
+						$ver_minor = $versioning[1];
+						$ver_patch = $versioning[2];
+						
+						// Match the current and new config file versions and overwrite existing module if newer
+						if($ver_major > $cur_ver_major || $ver_minor > $cur_ver_minor || $ver_patch > $cur_ver_patch):
+							$zip->extractTo(realpath(LOC_MODULES));
+							// Delete the temp config file
+							unlink($tmp_config_loc);
+						endif;
+					
 					endif;
+					
 				endif;
 				
 				$zip->close();
