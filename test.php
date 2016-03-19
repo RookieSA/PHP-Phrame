@@ -8,6 +8,6 @@
 	print "<pre>";
 	print_r($p->get_modules());
 	
-	// Module namespace\Class namespace::Class function
-	//TestApp\test::print_user("Ruan", "Lamprecht");
+	$testApp = new AnotherModule\test;
+	$testApp->print_user("Ruan", "Lamprecht");
 ?>
