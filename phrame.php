@@ -223,7 +223,7 @@
 				if(!$conf_data):
 					throw new \Exception(sprintf(\ERR_MODULE_INVALID, $tmp_zip), 2);
 				else:
-					// Create a temp config file to match with the current config file
+					// Create a temp config file to compare with the current config file
 					$tmp_config_loc = LOC_MODULES."/".uniqid().".xml";
 					$tmp_config = file_put_contents($tmp_config_loc, $conf_data);
 					$config = (array)simplexml_load_file($tmp_config_loc);
