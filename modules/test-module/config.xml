@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<namespace>Test App</namespace>
+	<views>
+		<view>index.html</view>
+		<view>help.html</view>
+	</views>
+</config>

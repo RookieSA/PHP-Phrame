@@ -1,5 +1,5 @@
 <?php
-	
+	namespace Phrame;
 	/*
 	* Phrame configuration
 	*/
@@ -16,3 +16,4 @@
 	define(LOC_MODULES, $LOC_MODULES);
 	define(LOC_VIEWS, $LOC_VIEWS);
 	$phrame_modules = array();
+	

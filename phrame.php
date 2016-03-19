@@ -1,4 +1,6 @@
 <?php
+	namespace Phrame;
+	
 	require_once("phrame-config.php");
 	class phrame {
 		
@@ -32,7 +34,7 @@
 		public function load_module($module_path) {
 			global $phrame_modules;
 			
-			$rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(LOC_MODULES."/".$module_path));
+			$rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(\LOC_MODULES."/".$module_path));
 			// Loop through discovered modules
 			foreach($rii as $file):
 				if($file->isDir()):
@@ -53,6 +55,12 @@
 				// Get module README
 				if(strpos(strtolower($fpath), "readme.txt") !== false):
 					$module["description"] = file_get_contents($fpath);
+				endif;
+				// Get module configuration file
+				if(strpos(strtolower($fpath), "config.xml") !== false):
+				print "<pre>";
+					$xml = simplexml_load_file($fpath);
+					print_r($xml);
 				endif;
 				
 				$module["files"][] = $fpath;

@@ -1,7 +1,7 @@
 <?php
 	include("phrame.php");
 	
-	$p = new phrame(true);
+	$p = new Phrame\phrame(true);
 
-	print_r($p->get_modules());
+	//print_r($p->get_modules());
 ?>
