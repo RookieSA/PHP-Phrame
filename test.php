@@ -1,8 +1,7 @@
 <?php
 	include("phrame.php");
 	
-	$p = new phrame();
-	$p->autoload();
+	$p = new phrame(true);
 
 	print_r($p->get_modules());
 ?>

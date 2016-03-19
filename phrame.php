@@ -7,6 +7,7 @@
 			
 			if($autoload):
 				$this->autoload();
+				// Iterate through each module within the $phrame_modules global array
 				foreach($phrame_modules as $module):
 					$includes = $module["includes"];
 					foreach($includes as $include):
@@ -16,7 +17,7 @@
 			endif;
 		}
 		
-		public function autoload() {
+		protected function autoload() {
 			// iterate through modules location for present modules
 			$modules = glob(LOC_MODULES . '/*' , GLOB_ONLYDIR);
 			// Loop through discovered modules
