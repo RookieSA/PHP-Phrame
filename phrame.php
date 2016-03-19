@@ -29,14 +29,37 @@
 			
 			// Check if $module_path is a URL
 			if(filter_var($module_path, FILTER_VALIDATE_URL)):
-				$this->load_external_module($module_path);
+				// Extract the module name from the ZIP file name
+				$module_name = basename($module_path);
+				$module_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $module_name);
+				
+				// Check if the module already exists
+				if(file_exists(LOC_MODULES."/".$module_name)):
+					// If the module already exists, see if auto_update in config file is set to true
+					$curr_conf_path = realpath(LOC_MODULES."/".$module_name."/config.xml");
+					$curr_conf = (array)simplexml_load_file($curr_conf_path);
+					
+					// If auto_update is true, overwrite existing module with new one
+					if($curr_conf["auto_update"] == "true"):
+						// Download and overwite existing module
+						$this->load_external_module($module_path);
+					else:
+						// If auto_update is false, do nothing
+					endif;
+				else:
+					// If module doesn't exist, download and create the module
+					$this->load_external_module($module_path);
+				endif;
+				
 				/*
 				*	Re-set the $module_path to the newly created module directory
 				*	The newly created directory name matches the zip file name of the remote module; however we need to remove the .zip extension
 				*/
-				$module_path = basename($module_path);
-				$module_path = preg_replace('/\\.[^.\\s]{3,4}$/', '', $module_path);
+				$module_path = basename($module_name);
+				$module_path = preg_replace('/\\.[^.\\s]{3,4}$/', '', $module_name);
+				
 			endif;
+			
 			
 			$rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(\LOC_MODULES."/".$module_path));
 			// Loop through discovered modules
@@ -50,7 +73,7 @@
 				$fpath = $file->getPathname();
 				
 				// Get module configuration file
-				$config_f_path = realpath($module["root"]."\config.xml");
+				$config_f_path = realpath($module["root"]."/config.xml");
 				if(file_exists($config_f_path) !== false):
 					$config = (array)simplexml_load_file($config_f_path);
 					$module["config"] = $config;
