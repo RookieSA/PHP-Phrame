@@ -114,11 +114,34 @@
 				$module["files"][] = realpath($fpath);
 			endforeach;
 			
-			$phrame_modules[] = $module;
+			$phrame_modules[basename($module_path)] = $module;
 		}
 		
+		// Retreive a list of currently loaded modules
 		public function get_modules() {
 			global $phrame_modules;
 			return $phrame_modules;
+		}
+		
+		// Retreive a specific module
+		public function get_module($name) {
+			global $phrame_modules;
+			return $phrame_modules[$name];
+		}
+		
+		// Retreive a specific module
+		public function get_module_classes($name) {
+			global $phrame_modules;
+			return $phrame_modules[$name]["classes"];
+		}
+		
+		// Retreive a specific module
+		public function get_module_methods($name) {
+			global $phrame_modules;
+			$methods = array();
+			foreach($phrame_modules[$name]["classes"] as $method):
+				$methods[] = $method["methods"];
+			endforeach;
+			return $methods;
 		}
 	}
