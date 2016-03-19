@@ -1,6 +1,7 @@
 <?php
 	namespace Phrame;
 	
+	
 	require_once("phrame-config.php");
 	class phrame {
 		
@@ -33,8 +34,11 @@
 			*	- First check if the module path ($module_path) is local or an external URL
 			*	- If the module path is external:
 			*		- Check if the module already exists
-			*		- If the module already exists, check if the auto_update setting in its config file is set to true
-			*		- If set to true, download and overwrite the existing module with the newly downloaded one, else do nothing
+			*		- If the module already exists:
+			*			- Check if the auto_update setting in its config file is set to true
+			*			- If set to true, download and overwrite the existing module with the newly downloaded one
+			*			- If set to false, do nothing
+			*       - If the module doesn't exist, download and create the new module
 			*	- Continue to load both local and newly downloaded modules
 			*/
 			
@@ -52,8 +56,13 @@
 					
 					// If auto_update is true, overwrite existing module with new one
 					if($curr_conf["auto_update"] == "true"):
-						// Download and overwite existing module
-						$this->load_external_module($module_path);
+						// Get current module version number
+						$curr_version = $curr_conf["version"];
+						/* 
+						* Pass the version number along with the download request. If the version numbers don't match, proceed to download, else ignore
+						* Refer to the load_external_module() method
+						*/
+						$this->load_external_module($module_path, $curr_version);
 					else:
 						// If auto_update is false, do nothing
 					endif;
@@ -189,7 +198,7 @@
 		}
 		
 		// Load external modules from remote provider
-		private function load_external_module($url) {
+		private function load_external_module($url, $cur_version=NULL) {
 			
 			$tmp_zip = basename($url);
 			$r_zip = LOC_MODULES.'/'.$tmp_zip;
@@ -200,13 +209,36 @@
 			$data = curl_exec($ch);
 			file_put_contents($r_zip, $data);
 			
+			// Peek inside the zip archive for config file
 			$zip = new \ZipArchive;
 			if ($zip->open($r_zip) === TRUE):
-				$zip->extractTo(realpath(LOC_MODULES));
+				
+				// Sanitize the ZIP filename to a valid module name
+				$module_root = preg_replace('/\\.[^.\\s]{3,4}$/', '', $tmp_zip);
+				
+				// Read the config file
+				$conf_data = $zip->getFromName("$module_root/config.xml", 0);
+				
+				// If the config file does not exist, throw an exception
+				if(!$conf_data):
+					throw new \Exception(sprintf(\ERR_MODULE_INVALID, $tmp_zip), 2);
+				else:
+					// Create a temp config file to match with the current config file
+					$tmp_config_loc = LOC_MODULES."/".uniqid().".xml";
+					$tmp_config = file_put_contents($tmp_config_loc, $conf_data);
+					$config = (array)simplexml_load_file($tmp_config_loc);
+					// If the current and new config file versions don't match, overwrite the existing module
+					if($config["version"] != $cur_version):
+						$zip->extractTo(realpath(LOC_MODULES));
+						// Delete the temp config file
+						unlink($tmp_config_loc);
+					endif;
+				endif;
+				
 				$zip->close();
 				unlink($r_zip);
 			else:
-				echo 'failed';
+				throw new \Exception(sprintf(\ERR_MODULE_EXTRACT, $tmp_zip), 3);
 			endif;
 		}
 	}
