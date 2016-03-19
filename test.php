@@ -14,7 +14,4 @@
 		print $employee["name"];
 	endwhile;
 	
-	print "<br/>";
-	
-	//YetAnotherModule\woohoo::twerk();
 ?>

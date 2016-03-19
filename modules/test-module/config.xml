@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<config>
-	<namespace>TestApp</namespace>
-	<name>Test Module</name>
-	<description>This is a test description</description>
-	<author>Ruan Lamprecht</author>
-	<email>ruan@ruanlamprecht.co.za</email>
-	<url>http://www.ruanlamprecht.co.za</url>
-</config>

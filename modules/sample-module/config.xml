@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<namespace>SampleModule</namespace>
+	<name>Sample Module</name>
+	<description>This is a sample module</description>
+	<version>1.0.0</version>
+	<auto_update>false</auto_update>
+	<author>Ruan Lamprecht</author>
+	<email>ruan@ruanlamprecht.co.za</email>
+	<url>http://www.ruanlamprecht.co.za</url>
+</config>
