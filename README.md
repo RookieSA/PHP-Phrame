@@ -42,5 +42,23 @@ The block of code above makes use of the MySQL CRUD module, which is availabe in
 ## Modules
 A typical module structure follows the following pattern:
 * config.xml (Required)
-* readme.md (Required)
-* Any amount of PHP classes that contain .inc within the filename. At least one class is required
+* readme.md (Optional)
+* Any amount of PHP classes that contain `.inc` within the filename. At least one class is required
+
+Let's start with the `config.xml` file.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<namespace>MyModule</namespace>
+	<name>My Awesome Module</name>
+	<description>A short description of my module</description>
+	<version>1.0.0</version>
+	<auto_update>false</auto_update>
+	<author>John Doe</author>
+	<email>john@doe.com</email>
+	<url>http://www.doe.com</url>
+</config>
+```
+
+The configuration file above is standard; and so all nodes and their values are required.
