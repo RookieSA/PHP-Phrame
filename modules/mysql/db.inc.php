@@ -46,7 +46,12 @@
 		public function dbclose() {
 			mysql_close($this->$conid);
 		}
-  
+  		public function escape ($val) {
+			return mysql_escape_string($val);
+		}
+		public function is_email($str) {
+			return filter_var($str, FILTER_VALIDATE_EMAIL);	
+		}
 
 
 	}
