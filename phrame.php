@@ -4,7 +4,7 @@
 	 * 
 	 * Copyright (C) 2016 Ruan Lamprecht
 	 * 
-	 * This file is part of Mupen64PlusAE.
+	 * This file is part of PHP-Phrame.
 	 * 
 	 * PHP-Phrame is free software: you can redistribute it and/or modify it under the terms of the
 	 * GNU General Public License as published by the Free Software Foundation, either version 2 of the
