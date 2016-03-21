@@ -21,19 +21,7 @@ include("phrame.php");
 $db = new MySQL\db("localhost","dbname","dbuser","dbpass");
 $rows = $db->dbsql("SELECT * FROM table_name");
 while($row = $db->dbfetch($rows)):
-    if($db->is_email($row["email"])):
-        print $row["name"]."<br>";
-    endif;
-endwhile;
-
-// Standard PHP & MySQL
-$conn = mysqli_connect("localhost", "dbuser", "dbpass") or die (print mysqli_connect_error());
-$init = mysqli_select_db($conn, "dbname") or die (print mysqli_error($conn));
-$rows = mysqli_query($conn, "SELECT * FROM table_name") or die (print mysqli_error($conn));
-while($row = mysqli_fetch_array($rows)):
-    if(filter_var($row["email"], FILTER_VALIDATE_EMAIL)):
-       print $row["name"]."<br>";
-    endif;
+    print $row["name"]."<br>";
 endwhile;
 ```
 
