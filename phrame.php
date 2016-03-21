@@ -1,6 +1,25 @@
 <?php
+	/**
+	 * PHP-Phrame. A modular PHP framework
+	 * 
+	 * Copyright (C) 2016 Ruan Lamprecht
+	 * 
+	 * This file is part of Mupen64PlusAE.
+	 * 
+	 * PHP-Phrame is free software: you can redistribute it and/or modify it under the terms of the
+	 * GNU General Public License as published by the Free Software Foundation, either version 2 of the
+	 * License, or (at your option) any later version.
+	 * 
+	 * PHP-Phrame is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+	 * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+	 * 
+	 * See the GNU General Public License for more details. You should have received a copy of the GNU
+	 * General Public License along with PHP-Phrame. If not, see <http://www.gnu.org/licenses/>.
+	 * 
+	 * Authors: TODO
+	 */
+	 
 	namespace Phrame;
-	
 	
 	require_once("phrame-config.php");
 	class phrame {
@@ -106,7 +125,7 @@
 				
 				// Get module README
 				if(strpos(strtolower($fpath), "readme.md") !== false):
-					$module["readme"] = file_get_contents($fpath);
+					$module["readme"] = mysql_escape_string(file_get_contents($fpath));
 				endif;
 				
 				// Populate module's files
