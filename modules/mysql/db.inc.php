@@ -11,47 +11,47 @@
 		public $db_user;
 		public $db_pass;
 		
-		public function __construct($db_server, $db_name, $db_user, $db_pass) {
+		public function __construct($db_server=NULL, $db_name=NULL, $db_user=NULL, $db_pass=NULL) {
 			$this->db_server = $db_server;
 			$this->db_name = $db_name;
 			$this->db_user = $db_user;
 			$this->db_pass = $db_pass;
-			$this->conid = $this->dbconnect();
-  			$this->dbsql("USE $db_name;");	
+			if(!empty($db_server) && !empty($db_name) && !empty($db_user) && !empty($db_pass)):
+				$this->conid = $this->dbconnect();
+				$this->dbsql("USE $db_name;");
+			endif;	
 		}
 		
 		public function  dbpar($data) {
 			return "'".$data."'";
 		}
+		
 		public function dbconnect () {
 			$mysql=mysql_pconnect($this->db_server,$this->db_user,$this->db_pass) or die (print mysql_error());
 			return $mysql;
 		}
+		
 		public function dbsql ($sql) {
 			global $conid;
 			$result= mysql_query($sql,$this->conid);
 			return $result;
 		}
+		
 		public function dbfetch ($result) {
 			if ($row=mysql_fetch_array($result)) return $row;
 			else return false;
 		}
+		
 		public function dbrows ($result) {
 			$num=mysql_num_rows($result);
 			return $num;
 		}
+		
 		public function dbfree ($result) {
-		  	mysql_free_result($result);
+		  mysql_free_result($result);
 		}
+		
 		public function dbclose() {
 			mysql_close($this->$conid);
 		}
-  		public function escape ($val) {
-			return mysql_escape_string($val);
-		}
-		public function is_email($str) {
-			return filter_var($str, FILTER_VALIDATE_EMAIL);	
-		}
-
-
 	}
