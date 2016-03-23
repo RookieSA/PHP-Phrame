@@ -2,14 +2,12 @@
 	namespace Phrame;
 	/*
 	* Phrame configuration
+	* Set your Phrame configurations here
 	*/
 	$LOC_MODULES = "./modules";
 	$LOC_VIEWS = "./views";
 	$LANGUAGE = "en-gb";
 	
-	/*
-	* End of Phrame configuration
-	*/
 	
 	/*
 	* Phrame Core
