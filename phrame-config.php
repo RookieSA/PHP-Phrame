@@ -7,8 +7,7 @@
 	$LOC_MODULES = "./modules";
 	$LOC_VIEWS = "./views";
 	$LANGUAGE = "en-gb";
-	
-	
+		
 	/*
 	* Phrame Core
 	*/
