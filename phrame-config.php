@@ -3,9 +3,10 @@
 	/*
 	* Phrame configuration
 	*/
-	$APP_NAMESPACE = "Test";
-	$LOC_MODULES = ".\modules";
-	$LOC_VIEWS = ".\views";
+	$LOC_MODULES = "./modules";
+	$LOC_VIEWS = "./views";
+	$LANGUAGE = "en-gb";
+	
 	/*
 	* End of Phrame configuration
 	*/
@@ -15,10 +16,15 @@
 	*/
 	define(LOC_MODULES, $LOC_MODULES);
 	define(LOC_VIEWS, $LOC_VIEWS);
-	define(ERR_NO_CONFIG_FILE, "There is no configuration file in module '%s'");
-	define(ERR_MODULE_EXTRACT, "An unknown error occured whilst trying to extract the '%s' module. Confirm that both the URL and ZIP file is valid");
-	define(ERR_MODULE_INVALID, "The module '%s' is invalid");
-	define(ERR_CONFIG_VERSION_INVALID, "The downloaded module's config file versioning is invalid"); 
+	set_lang($LANGUAGE);
 	$phrame_modules = array();
 	$phrame_config = array();
+	
+	function set_lang($_lang) {
+		if(file_exists("./lang/".$_lang.".php")):
+			require_once("./lang/".$_lang.".php");
+		else:
+			throw new \Exception("The language file '$_lang' does not exist. Please refer to the lang directory", 3);
+		endif;
+	}
 	
