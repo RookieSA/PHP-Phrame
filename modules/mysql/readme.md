@@ -9,6 +9,6 @@ Example usage:
 $db = new MySQL\db($dbserver, $dbname, $dbuser, $dbpass);
 $vegetables = $db->dbsql("SELECT * FROM vegetables");
 while($vegetable = $db->dbfetch($vegetables)):
-	print $vegetables["name"];
+	print $vegetable["name"];
 endwhile;
 ```
