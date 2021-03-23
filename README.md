@@ -10,7 +10,7 @@ The beauty of PHP-Phrame is that modules are treated as installable dependancies
 
 Standard versioning conventions ensure that modules are automatically kept up to date at all times, should you require this.
 
-##Usage
+## Usage
 Using PHP-Phrame is quite simple. You only ever need to include the `phrame.php` file in your coding, and the rest will follow.
 
 To demonstrate how easy it ease to use PHP-Phrame; observe the following code:
