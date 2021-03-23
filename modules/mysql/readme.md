@@ -1,4 +1,4 @@
-#MySQL CRUD
+# MySQL CRUD
 
 This module facilitates an easy way of performing CRUD (Create, Read, Update, Delete) operations on a MySQL database.
 
